@@ -2,15 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
+
 public class GameManager : MonoBehaviour, ISubject
 {
+    //public TextMeshProUGUI timerText;
+
 
     private static GameManager instance;
 
     private List<IObserver> observers = new List<IObserver>();
 
-    [SerializeField]
-    private float timer;
+    public float timer;
 
     [SerializeField]
     private string sceneName;

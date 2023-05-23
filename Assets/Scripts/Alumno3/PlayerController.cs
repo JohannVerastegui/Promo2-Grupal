@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private string sceneName;
+
+    
     [SerializeField]
     private float moveSpeed;
 
@@ -56,6 +61,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             Destroy(gameObject);
+            SceneManager.LoadScene(sceneName);
         }
     }
 }

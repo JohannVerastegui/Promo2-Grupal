@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerNivel2 : Personaje
 {
@@ -39,6 +40,7 @@ public class PlayerNivel2 : Personaje
     public void RecibirBala()
     {
         perdio = true;
+        SceneManager.LoadScene("Derrota");
     }
 
     public bool Perdio()
@@ -49,5 +51,13 @@ public class PlayerNivel2 : Personaje
     public float ObtenerDistanciaRecorrida()
     {
         return distanciaRecorrida;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bullet"))
+        {
+            RecibirBala();
+        }
     }
 }

@@ -1,0 +1,5 @@
+Alumno 1: Eddi Velazquez
+Alumno 2: Yussef Kahatt
+Alumno 3: Liam Teixido
+Alumno 4: Lorenzo Vega
+Alumno 5: Johann Verastegui

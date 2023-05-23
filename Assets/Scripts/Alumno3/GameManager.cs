@@ -1,37 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class GameManager : MonoBehaviour
+using UnityEngine.SceneManagement;
+public class GameManager : MonoBehaviour, ISubject
 {
-    //Singleton 
+
     private static GameManager instance;
-    public static GameManager Instance
+
+    private List<IObserver> observers = new List<IObserver>();
+
+    [SerializeField]
+    private float timer;
+
+    [SerializeField]
+    private string sceneName;
+
+    [SerializeField]
+    private float maxtimer;
+
+    public float MaxTimer { get { return maxtimer; } }
+
+    private void Awake()
     {
-        get
+        observers = new List<IObserver>();
+        instance = this;
+    }
+
+    public static GameManager GetInstance()
+    {
+        return instance;
+    }
+
+    void Update()
+    {
+        timer += Time.deltaTime;
+        if(timer>=maxtimer)
         {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<GameManager>();
-                if (instance == null)
-                {
-                    GameObject manager = new GameObject("GameManager");
-                    instance = manager.AddComponent<GameManager>();
-                }
-            }
-            return instance;
+            SceneManager.LoadScene(sceneName);
+            Notify();
         }
     }
 
-    public float timer = 0f;
-
-    public float GetTimer()
+    public void Attach(IObserver observer)
     {
-        return timer;
+        observers.Add(observer);
     }
 
-    public void IncreaseGameTimer(float deltaTime)
+    public void Detach(IObserver observer)
     {
-        timer += deltaTime;
+        observers.Remove(observer);
+    }
+
+    public void Notify()
+    {
+        foreach (IObserver observer in observers)
+        {
+            observer.Execute(this);
+        }
     }
 }

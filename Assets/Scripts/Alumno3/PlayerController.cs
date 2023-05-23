@@ -5,59 +5,58 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private float movementSpeed = 5f;
+    private float moveSpeed;
+
     [SerializeField]
     private GameObject bulletPrefab;
-    [SerializeField] 
+
+    [SerializeField]
     private Transform bulletSpawnPoint;
-    [SerializeField] 
-    private float bulletForce = 10f;
 
     private Rigidbody rb;
+    private GameObject enemy;
+    private Vector3 originalDirection;
 
-    //Singleton 
-    public static PlayerController Instance;
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-
-    private void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
+    [SerializeField]
+    private float shootForce;
 
     private void Update()
     {
-        // Movimiento horizontal
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        Vector3 movement = new Vector3(moveHorizontal, 0f, 0f) * movementSpeed;
-        rb.velocity = movement;
+        float horizontalInput = Input.GetAxis("Horizontal");
+        transform.Translate(Vector3.left * horizontalInput * moveSpeed * Time.deltaTime);
 
-        // Disparo
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Shoot();
         }
     }
 
+     void Start()
+    {
+        enemy = GameObject.FindGameObjectWithTag("Enemy");
+    }
     private void Shoot()
     {
-        // Crear una instancia de la bala
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
+        /*GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
+        bulletRigidbody.AddForce(bulletSpawnPoint.forward * shootForce, ForceMode.Impulse);
+        */
 
-        // Aplicar fuerza a la bala en la dirección hacia adelante
-        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-        bulletRb.AddForce(transform.forward * bulletForce, ForceMode.Impulse);
+        //originalDirection = rb.velocity = (enemy.transform.position - transform.position).normalized;
+        //rb.velocity = (originalDirection * moveSpeed);
+
+        Vector3 shootDirection = shootForce > 0 ? Vector3.right : Vector3.left;
+
+        GameObject newBullet = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, Quaternion.identity);
+        newBullet.GetComponent<Rigidbody>().velocity = shootDirection * 30;
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
 

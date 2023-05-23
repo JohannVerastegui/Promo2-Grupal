@@ -27,7 +27,7 @@ public class PlayerNivel2 : Personaje
             movimientoVertical = 0f; 
         }
 
-        Vector3 movimiento = new Vector3(movimientoHorizontal, movimientoVertical, 0f ) * velocidad; 
+        Vector3 movimiento = new Vector3(0f, movimientoVertical, movimientoHorizontal) * velocidad; 
 
         rigidbody.velocity = movimiento; 
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerNivel2 : Personaje
 {
@@ -10,7 +11,7 @@ public class PlayerNivel2 : Personaje
     public float velocidad = 2;
     private Vector3 posicionInicial;
 
-
+    public Text distanciaText;
 
     public void Start()
     {
@@ -31,7 +32,9 @@ public class PlayerNivel2 : Personaje
 
         rigidbody.velocity = movimiento; 
 
-        distanciaRecorrida = transform.position.z - posicionInicial.z; 
+        distanciaRecorrida = transform.position.y - posicionInicial.y;
+
+        distanciaText.text = distanciaRecorrida.ToString();
     }
     public void RecibirBala()
     {

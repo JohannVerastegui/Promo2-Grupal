@@ -19,10 +19,6 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (other.CompareTag("Player"))
-            {
-                FindObjectOfType<LevelController>().LoadLevel("Death");
-            }
             Destroy(gameObject);
         }
     }

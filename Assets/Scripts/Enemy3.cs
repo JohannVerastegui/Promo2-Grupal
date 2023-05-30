@@ -5,30 +5,40 @@ using UnityEngine;
 public class Enemy3 : MonoBehaviour
 {
     public GameObject bulletPrefab;
-    public float bulletSpeed = 10f;
-    public float bulletDuration = 10f;
-    public float shootInterval = 2f;
-    public Transform[] spawnPoints;
+    public Transform firePoint;
+    Transform playerTransform;
+    [SerializeField] float bulletSpeed = 10f;
+    [SerializeField] float shootIntervalMin, shootIntervalMax;
+    [SerializeField] float bulletDisappear = 10f;
 
-    private float lastShootTime;
+    private float timer = 0f;
 
-    private void Update()
+    void Start()
     {
-        if (Time.time - lastShootTime >= shootInterval)
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        timer = Random.Range(shootIntervalMin, shootIntervalMax);
+    }
+
+    void Update()
+    {
+        timer -= Time.deltaTime;
+
+        if (timer <= 0)
         {
-            ShootBullet();
-            lastShootTime = Time.time;
+            if (Level3Manager.instance.bulletsLeft > 0)
+            {
+                Shoot();
+                timer = Random.Range(shootIntervalMin, shootIntervalMax);
+            }
         }
     }
 
-    private void ShootBullet()
+    public void Shoot()
     {
-        foreach (Transform spawnPoint in spawnPoints)
-        {
-            GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, spawnPoint.rotation);
-            Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-            bulletRb.velocity = spawnPoint.forward * bulletSpeed;
-            Destroy(bullet, bulletDuration);
-        }
+        Vector3 direction = (playerTransform.position - transform.position).normalized;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        var bullet = Instantiate(bulletPrefab, firePoint.position, rotation);
+        bullet.GetComponent<Rigidbody>().AddForce(direction * bulletSpeed, ForceMode.Impulse);
+        Destroy(bullet.gameObject, bulletDisappear);
     }
 }

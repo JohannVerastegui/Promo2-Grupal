@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PlayerColor
+  m_Name: BulletColor
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -75,10 +75,6 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-<<<<<<<< Updated upstream:Assets/Materials/PlayerColor.mat
-    - _Color: {r: 0.20914915, g: 0.24578549, b: 0.9433962, a: 1}
-========
-    - _Color: {r: 0.9150943, g: 0.64765984, b: 0.4178355, a: 1}
->>>>>>>> Stashed changes:Assets/Materials/Floor.mat
+    - _Color: {r: 0.54707754, g: 0.8679245, b: 0.16785331, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
